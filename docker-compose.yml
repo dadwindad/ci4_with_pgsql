@@ -10,7 +10,7 @@ services:
     ports:
       - '5432:5432'
   myapp:
-    image: docker.io/bitnami/codeigniter:4
+    image: dadwin/ci4_with_pgsql
     # build: .
     ports:
       - '8000:8000'
