@@ -1,0 +1,41 @@
+version: '2'
+
+services:
+  postgres:
+    image: postgres:10.20-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=db_gastro
+    ports:
+      - '5432:5432'
+  myapp:
+    image: docker.io/bitnami/codeigniter:4
+    # build: .
+    ports:
+      - '8000:8000'
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - CODEIGNITER_DATABASE_HOST=postgres
+      - CODEIGNITER_DATABASE_PORT_NUMBER=5432
+      - CODEIGNITER_DATABASE_USER=postgres
+      - CODEIGNITER_DATABASE_NAME=db_gastro
+    volumes:
+      - './my-project:/app'
+    depends_on:
+      - postgres
+  # mysql:
+  #   image: mysql:5.7
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=verysecret
+  #     - MYSQL_DATABASE=yii2advanced
+  #     - MYSQL_USER=yii2advanced
+  #     - MYSQL_PASSWORD=secret
+  # mariadb:
+  #   image: docker.io/bitnami/mariadb:10.6
+  #   environment:
+  #     # ALLOW_EMPTY_PASSWORD is recommended only for development.
+  #     - ALLOW_EMPTY_PASSWORD=yes
+  #     - MARIADB_USER=bn_myapp
+  #     - MARIADB_DATABASE=bitnami_myapp
